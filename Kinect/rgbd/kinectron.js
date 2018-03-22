@@ -17,6 +17,7 @@ function initKinectron() {
   kinectron.makeConnection();
 
   // Start rgbd feed and send received data to callback
+  kinectron.startTrackedBodies(drawJoints);
   kinectron.startRGBD(drawKinectImg);
   //kinectron.startTrackedBodies(drawJoints); 
 }
@@ -61,61 +62,6 @@ function drawKinectImg(data) {
   } 
 }
 
-function initSkeleton() {
-  var materialLine = new THREE.LineBasicMaterial({ color: 0xffffff, linewidth: 3 });
-
-  // start lines at random positions
-
-  // one line for spine and left leg 
-
-  var geometryLine = new THREE.Geometry();
-  geometryLine.vertices.push(new THREE.Vector3(-1, 0, 0));
-  geometryLine.vertices.push(new THREE.Vector3(0, 1, 0));
-  geometryLine.vertices.push(new THREE.Vector3(1, 0, 0));
-  geometryLine.vertices.push(new THREE.Vector3(1, 0, 0));
-  geometryLine.vertices.push(new THREE.Vector3(1, 0, 0));
-  geometryLine.vertices.push(new THREE.Vector3(1, 0, 0));
-  geometryLine.vertices.push(new THREE.Vector3(1, 0, 0));
-
-  line = new THREE.Line(geometryLine, materialLine);
-  scene.add(line);
-
-  // one line for left arm
-
-  var geometryLine1 = new THREE.Geometry();
-  geometryLine1.vertices.push(new THREE.Vector3(-1, 0, 0));
-  geometryLine1.vertices.push(new THREE.Vector3(0, 1, 0));
-  geometryLine1.vertices.push(new THREE.Vector3(1, 0, 0));
-  geometryLine1.vertices.push(new THREE.Vector3(1, 0, 0));
-  geometryLine1.vertices.push(new THREE.Vector3(1, 0, 0));
-  
-  line1 = new THREE.Line(geometryLine1, materialLine);
-  scene.add(line1);
-
-  // one line for right arm
-
-  var geometryLine2 = new THREE.Geometry();
-  geometryLine2.vertices.push(new THREE.Vector3(-1, 0, 0));
-  geometryLine2.vertices.push(new THREE.Vector3(0, 1, 0));
-  geometryLine2.vertices.push(new THREE.Vector3(1, 0, 0));
-  geometryLine2.vertices.push(new THREE.Vector3(1, 0, 0));
-  geometryLine2.vertices.push(new THREE.Vector3(1, 0, 0));
-  
-  line2 = new THREE.Line(geometryLine2, materialLine);
-  scene.add(line2);
-
-  // one line for right leg
-
-  var geometryLine3 = new THREE.Geometry();
-  geometryLine3.vertices.push(new THREE.Vector3(-1, 0, 0));
-  geometryLine3.vertices.push(new THREE.Vector3(0, 1, 0));
-  geometryLine3.vertices.push(new THREE.Vector3(1, 0, 0));
-  geometryLine3.vertices.push(new THREE.Vector3(1, 0, 0));
-  geometryLine3.vertices.push(new THREE.Vector3(1, 0, 0));
-  
-  line3 = new THREE.Line(geometryLine3, materialLine);
-  scene.add(line3);
-}
 
 
 function drawJoints(data) { 
@@ -236,7 +182,7 @@ function drawJoints(data) {
 
   // update position of light on right hand
 
-  bulbLight.position.x = data.joints[kinectron.HANDRIGHT].cameraX;
-  bulbLight.position.y = data.joints[kinectron.HANDRIGHT].cameraY;
-  bulbLight.position.z = data.joints[kinectron.HANDRIGHT].cameraZ;
+  //bulbLight.position.x = data.joints[kinectron.HANDRIGHT].cameraX;
+  //bulbLight.position.y = data.joints[kinectron.HANDRIGHT].cameraY;
+  //bulbLight.position.z = data.joints[kinectron.HANDRIGHT].cameraZ;
 }

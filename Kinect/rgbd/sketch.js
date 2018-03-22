@@ -8,6 +8,9 @@ var controls, stats;
 // geometry for point cloud
 var geometry, mesh, material, texture;
 
+// lines for skeleton
+var line, line1, line2, line3;
+
 // altering kinectron texture
 var dClipping1, flrClipping1, xLeftClip1, xRightClip1;  
 
@@ -36,6 +39,7 @@ function init() {
 	controls = new THREE.TrackballControls( camera, renderer.domElement );
 
 	createKinectImg();
+	initSkeleton();
 
 	// Set initial texture values from gui
 	updateMaterial();
@@ -123,4 +127,60 @@ function render() {
 	stats.update();
 	controls.update();
 	renderer.render( scene, camera );
+}
+
+function initSkeleton() {
+  var materialLine = new THREE.LineBasicMaterial({ color: 0xffffff, linewidth: 3 });
+
+  // start lines at random positions
+
+  // one line for spine and left leg 
+
+  var geometryLine = new THREE.Geometry();
+  geometryLine.vertices.push(new THREE.Vector3(-1, 0, 0));
+  geometryLine.vertices.push(new THREE.Vector3(0, 1, 0));
+  geometryLine.vertices.push(new THREE.Vector3(1, 0, 0));
+  geometryLine.vertices.push(new THREE.Vector3(1, 0, 0));
+  geometryLine.vertices.push(new THREE.Vector3(1, 0, 0));
+  geometryLine.vertices.push(new THREE.Vector3(1, 0, 0));
+  geometryLine.vertices.push(new THREE.Vector3(1, 0, 0));
+
+  line = new THREE.Line(geometryLine, materialLine);
+  scene.add(line);
+
+  // one line for left arm
+
+  var geometryLine1 = new THREE.Geometry();
+  geometryLine1.vertices.push(new THREE.Vector3(-1, 0, 0));
+  geometryLine1.vertices.push(new THREE.Vector3(0, 1, 0));
+  geometryLine1.vertices.push(new THREE.Vector3(1, 0, 0));
+  geometryLine1.vertices.push(new THREE.Vector3(1, 0, 0));
+  geometryLine1.vertices.push(new THREE.Vector3(1, 0, 0));
+  
+  line1 = new THREE.Line(geometryLine1, materialLine);
+  scene.add(line1);
+
+  // one line for right arm
+
+  var geometryLine2 = new THREE.Geometry();
+  geometryLine2.vertices.push(new THREE.Vector3(-1, 0, 0));
+  geometryLine2.vertices.push(new THREE.Vector3(0, 1, 0));
+  geometryLine2.vertices.push(new THREE.Vector3(1, 0, 0));
+  geometryLine2.vertices.push(new THREE.Vector3(1, 0, 0));
+  geometryLine2.vertices.push(new THREE.Vector3(1, 0, 0));
+  
+  line2 = new THREE.Line(geometryLine2, materialLine);
+  scene.add(line2);
+
+  // one line for right leg
+
+  var geometryLine3 = new THREE.Geometry();
+  geometryLine3.vertices.push(new THREE.Vector3(-1, 0, 0));
+  geometryLine3.vertices.push(new THREE.Vector3(0, 1, 0));
+  geometryLine3.vertices.push(new THREE.Vector3(1, 0, 0));
+  geometryLine3.vertices.push(new THREE.Vector3(1, 0, 0));
+  geometryLine3.vertices.push(new THREE.Vector3(1, 0, 0));
+  
+  line3 = new THREE.Line(geometryLine3, materialLine);
+  scene.add(line3);
 }
