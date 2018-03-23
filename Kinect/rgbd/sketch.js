@@ -11,6 +11,8 @@ var geometry, mesh, material, texture;
 // lines for skeleton
 var line, line1, line2, line3;
 
+
+
 // altering kinectron texture
 var dClipping1, flrClipping1, xLeftClip1, xRightClip1;  
 
@@ -39,7 +41,8 @@ function init() {
 	controls = new THREE.TrackballControls( camera, renderer.domElement );
 
 	createKinectImg();
-	initSkeleton();
+	  initSkeleton();
+
 
 	// Set initial texture values from gui
 	updateMaterial();
@@ -64,7 +67,7 @@ function createKinectImg() {
 	texture = new THREE.Texture(img1);
 	texture.minFilter = THREE.NearestFilter;
 
-	// geo for kinect poing cloud
+	// geo for kinect point cloud
 	geometry = new THREE.BufferGeometry();
 
 	// create verts for kinect
@@ -109,24 +112,6 @@ function createKinectImg() {
 
 	mesh = new THREE.Points( geometry, material );
 	scene.add( mesh );
-}
-
-
-function onWindowResize() {
-	camera.aspect = window.innerWidth / window.innerHeight;
-	camera.updateProjectionMatrix();
-	renderer.setSize( window.innerWidth, window.innerHeight );
-}
-
-function animate() {
-  requestAnimationFrame( animate );
-	render();	
-}
-
-function render() {
-	stats.update();
-	controls.update();
-	renderer.render( scene, camera );
 }
 
 function initSkeleton() {
@@ -184,3 +169,23 @@ function initSkeleton() {
   line3 = new THREE.Line(geometryLine3, materialLine);
   scene.add(line3);
 }
+
+
+function onWindowResize() {
+	camera.aspect = window.innerWidth / window.innerHeight;
+	camera.updateProjectionMatrix();
+	renderer.setSize( window.innerWidth, window.innerHeight );
+}
+
+function animate() {
+  requestAnimationFrame( animate );
+	render();	
+}
+
+function render() {
+	stats.update();
+	controls.update();
+	renderer.render( scene, camera );
+}
+
+

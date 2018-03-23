@@ -7,6 +7,9 @@ var img1 = new Image();
 // Control image processing
 var busy = false;
 
+
+
+
 function initKinectron() {
 
 	// Define and create an instance of kinectron
@@ -17,8 +20,16 @@ function initKinectron() {
   kinectron.makeConnection();
 
   // Start rgbd feed and send received data to callback
-  kinectron.startTrackedBodies(drawJoints);
-  kinectron.startRGBD(drawKinectImg);
+
+
+  kinectron.setColorCallback(colorCallback);
+  kinectron.setDepthCallback(depthCallback);
+  kinectron.setBodiesCallback(drawJoints);
+  kinectron.startMultiFrame(["color", "depth", "body"]);
+
+ 	
+  //kinectron.startTrackedBodies(drawJoints);
+  //kinectron.startRGBD(drawKinectImg);
   //kinectron.startTrackedBodies(drawJoints); 
 }
 
@@ -31,6 +42,20 @@ window.addEventListener('keydown', function(event){
 
 });
 
+  function colorCallback(colorImg) {
+    //process color frame here
+  }
+
+  function depthCallback(depthImg) {
+    //process depth frame here
+  }
+
+  function bodyCallback(body) {
+    //process body object here
+  }
+
+
+
 
 function drawKinectImg(data) {
 
@@ -42,7 +67,7 @@ function drawKinectImg(data) {
 	// Image data needs to be draw to img element before texture
   // Only draw if there is an image from Kinectron
   if (data.src) {
-
+  	console.log(data.src);
     busy = true; 
 
     // get color and depth image from kinectron data
@@ -64,114 +89,118 @@ function drawKinectImg(data) {
 
 
 
-function drawJoints(data) { 
+function drawJoints(data) {
+	//console.log(data);
 
-  // update line skeleton with incoming joint data
+	var bodyScale = 500.0;
+	for(var i = 0; i < data.length; i++){
+		if(data[i].tracked){
+			// update line skeleton with incoming joint data
 
   // spine and left leg 
 
-  line.geometry.vertices[0].x = data.joints[3].cameraX;
-  line.geometry.vertices[0].y = data.joints[3].cameraY;
-  line.geometry.vertices[0].z = data.joints[3].cameraZ;
+  line.geometry.vertices[0].x = data[i].joints[3].cameraX*bodyScale;
+  line.geometry.vertices[0].y = data[i].joints[3].cameraY*bodyScale;
+  line.geometry.vertices[0].z = data[i].joints[3].cameraZ*bodyScale;
 
-  line.geometry.vertices[1].x = data.joints[2].cameraX;
-  line.geometry.vertices[1].y = data.joints[2].cameraY;
-  line.geometry.vertices[1].z = data.joints[2].cameraZ;
+  line.geometry.vertices[1].x = data[i].joints[2].cameraX*bodyScale;
+  line.geometry.vertices[1].y = data[i].joints[2].cameraY*bodyScale;
+  line.geometry.vertices[1].z = data[i].joints[2].cameraZ*bodyScale;
 
-  line.geometry.vertices[2].x = data.joints[20].cameraX;
-  line.geometry.vertices[2].y = data.joints[20].cameraY;
-  line.geometry.vertices[2].z = data.joints[20].cameraZ;
+  line.geometry.vertices[2].x = data[i].joints[20].cameraX*bodyScale;
+  line.geometry.vertices[2].y = data[i].joints[20].cameraY*bodyScale;
+  line.geometry.vertices[2].z = data[i].joints[20].cameraZ*bodyScale;
 
-  line.geometry.vertices[3].x = data.joints[1].cameraX;
-  line.geometry.vertices[3].y = data.joints[1].cameraY;
-  line.geometry.vertices[3].z = data.joints[1].cameraZ;
+  line.geometry.vertices[3].x = data[i].joints[1].cameraX*bodyScale;
+  line.geometry.vertices[3].y = data[i].joints[1].cameraY*bodyScale;
+  line.geometry.vertices[3].z = data[i].joints[1].cameraZ*bodyScale;
 
-  line.geometry.vertices[4].x = data.joints[0].cameraX;
-  line.geometry.vertices[4].y = data.joints[0].cameraY;
-  line.geometry.vertices[4].z = data.joints[0].cameraZ;
+  line.geometry.vertices[4].x = data[i].joints[0].cameraX*bodyScale;
+  line.geometry.vertices[4].y = data[i].joints[0].cameraY*bodyScale;
+  line.geometry.vertices[4].z = data[i].joints[0].cameraZ*bodyScale;
 
-  line.geometry.vertices[5].x = data.joints[12].cameraX;
-  line.geometry.vertices[5].y = data.joints[12].cameraY;
-  line.geometry.vertices[5].z = data.joints[12].cameraZ;
+  line.geometry.vertices[5].x = data[i].joints[12].cameraX*bodyScale;
+  line.geometry.vertices[5].y = data[i].joints[12].cameraY*bodyScale;
+  line.geometry.vertices[5].z = data[i].joints[12].cameraZ*bodyScale;
 
-  line.geometry.vertices[6].x = data.joints[13].cameraX;
-  line.geometry.vertices[6].y = data.joints[13].cameraY;
-  line.geometry.vertices[6].z = data.joints[13].cameraZ;
+  line.geometry.vertices[6].x = data[i].joints[13].cameraX*bodyScale;
+  line.geometry.vertices[6].y = data[i].joints[13].cameraY*bodyScale;
+  line.geometry.vertices[6].z = data[i].joints[13].cameraZ*bodyScale;
 
-  line.geometry.vertices[5].x = data.joints[14].cameraX;
-  line.geometry.vertices[5].y = data.joints[14].cameraY;
-  line.geometry.vertices[5].z = data.joints[14].cameraZ;
+  line.geometry.vertices[5].x = data[i].joints[14].cameraX*bodyScale;
+  line.geometry.vertices[5].y = data[i].joints[14].cameraY*bodyScale;
+  line.geometry.vertices[5].z = data[i].joints[14].cameraZ*bodyScale;
 
-  line.geometry.vertices[6].x = data.joints[15].cameraX;
-  line.geometry.vertices[6].y = data.joints[15].cameraY;
-  line.geometry.vertices[6].z = data.joints[15].cameraZ;
+  line.geometry.vertices[6].x = data[i].joints[15].cameraX*bodyScale;
+  line.geometry.vertices[6].y = data[i].joints[15].cameraY*bodyScale;
+  line.geometry.vertices[6].z = data[i].joints[15].cameraZ*bodyScale;
 
   // left arm 
 
-  line1.geometry.vertices[0].x = data.joints[20].cameraX;
-  line1.geometry.vertices[0].y = data.joints[20].cameraY;
-  line1.geometry.vertices[0].z = data.joints[20].cameraZ;
+  line1.geometry.vertices[0].x = data[i].joints[20].cameraX*bodyScale;
+  line1.geometry.vertices[0].y = data[i].joints[20].cameraY*bodyScale;
+  line1.geometry.vertices[0].z = data[i].joints[20].cameraZ*bodyScale;
 
-  line1.geometry.vertices[1].x = data.joints[4].cameraX;
-  line1.geometry.vertices[1].y = data.joints[4].cameraY;
-  line1.geometry.vertices[1].z = data.joints[4].cameraZ;
+  line1.geometry.vertices[1].x = data[i].joints[4].cameraX*bodyScale;
+  line1.geometry.vertices[1].y = data[i].joints[4].cameraY*bodyScale;
+  line1.geometry.vertices[1].z = data[i].joints[4].cameraZ*bodyScale;
 
-  line1.geometry.vertices[2].x = data.joints[5].cameraX;
-  line1.geometry.vertices[2].y = data.joints[5].cameraY;
-  line1.geometry.vertices[2].z = data.joints[5].cameraZ;
+  line1.geometry.vertices[2].x = data[i].joints[5].cameraX*bodyScale;
+  line1.geometry.vertices[2].y = data[i].joints[5].cameraY*bodyScale;
+  line1.geometry.vertices[2].z = data[i].joints[5].cameraZ*bodyScale;
 
-  line1.geometry.vertices[3].x = data.joints[5].cameraX;
-  line1.geometry.vertices[3].y = data.joints[5].cameraY;
-  line1.geometry.vertices[3].z = data.joints[5].cameraZ;
+  line1.geometry.vertices[3].x = data[i].joints[5].cameraX*bodyScale;
+  line1.geometry.vertices[3].y = data[i].joints[5].cameraY*bodyScale;
+  line1.geometry.vertices[3].z = data[i].joints[5].cameraZ*bodyScale;
 
-  line1.geometry.vertices[4].x = data.joints[7].cameraX;
-  line1.geometry.vertices[4].y = data.joints[7].cameraY;
-  line1.geometry.vertices[4].z = data.joints[7].cameraZ;
+  line1.geometry.vertices[4].x = data[i].joints[7].cameraX*bodyScale;
+  line1.geometry.vertices[4].y = data[i].joints[7].cameraY*bodyScale;
+  line1.geometry.vertices[4].z = data[i].joints[7].cameraZ*bodyScale;
 
 
   // right arm 
 
-  line2.geometry.vertices[0].x = data.joints[20].cameraX;
-  line2.geometry.vertices[0].y = data.joints[20].cameraY;
-  line2.geometry.vertices[0].z = data.joints[20].cameraZ;
+  line2.geometry.vertices[0].x = data[i].joints[20].cameraX*bodyScale;
+  line2.geometry.vertices[0].y = data[i].joints[20].cameraY*bodyScale;
+  line2.geometry.vertices[0].z = data[i].joints[20].cameraZ*bodyScale;
 
-  line2.geometry.vertices[1].x = data.joints[8].cameraX;
-  line2.geometry.vertices[1].y = data.joints[8].cameraY;
-  line2.geometry.vertices[1].z = data.joints[8].cameraZ;
+  line2.geometry.vertices[1].x = data[i].joints[8].cameraX*bodyScale;
+  line2.geometry.vertices[1].y = data[i].joints[8].cameraY*bodyScale;
+  line2.geometry.vertices[1].z = data[i].joints[8].cameraZ*bodyScale;
 
-  line2.geometry.vertices[2].x = data.joints[9].cameraX;
-  line2.geometry.vertices[2].y = data.joints[9].cameraY;
-  line2.geometry.vertices[2].z = data.joints[9].cameraZ;
+  line2.geometry.vertices[2].x = data[i].joints[9].cameraX*bodyScale;
+  line2.geometry.vertices[2].y = data[i].joints[9].cameraY*bodyScale;
+  line2.geometry.vertices[2].z = data[i].joints[9].cameraZ*bodyScale;
 
-  line2.geometry.vertices[3].x = data.joints[10].cameraX;
-  line2.geometry.vertices[3].y = data.joints[10].cameraY;
-  line2.geometry.vertices[3].z = data.joints[10].cameraZ;
+  line2.geometry.vertices[3].x = data[i].joints[10].cameraX*bodyScale;
+  line2.geometry.vertices[3].y = data[i].joints[10].cameraY*bodyScale;
+  line2.geometry.vertices[3].z = data[i].joints[10].cameraZ*bodyScale;
 
-  line2.geometry.vertices[4].x = data.joints[11].cameraX;
-  line2.geometry.vertices[4].y = data.joints[11].cameraY;
-  line2.geometry.vertices[4].z = data.joints[11].cameraZ;
+  line2.geometry.vertices[4].x = data[i].joints[11].cameraX*bodyScale;
+  line2.geometry.vertices[4].y = data[i].joints[11].cameraY*bodyScale;
+  line2.geometry.vertices[4].z = data[i].joints[11].cameraZ*bodyScale;
 
   // right leg 
 
-  line3.geometry.vertices[0].x = data.joints[0].cameraX;
-  line3.geometry.vertices[0].y = data.joints[0].cameraY;
-  line3.geometry.vertices[0].z = data.joints[0].cameraZ;
+  line3.geometry.vertices[0].x = data[i].joints[0].cameraX*bodyScale;
+  line3.geometry.vertices[0].y = data[i].joints[0].cameraY*bodyScale;
+  line3.geometry.vertices[0].z = data[i].joints[0].cameraZ*bodyScale;
 
-  line3.geometry.vertices[1].x = data.joints[16].cameraX;
-  line3.geometry.vertices[1].y = data.joints[16].cameraY;
-  line3.geometry.vertices[1].z = data.joints[16].cameraZ;
+  line3.geometry.vertices[1].x = data[i].joints[16].cameraX*bodyScale;
+  line3.geometry.vertices[1].y = data[i].joints[16].cameraY*bodyScale;
+  line3.geometry.vertices[1].z = data[i].joints[16].cameraZ*bodyScale;
 
-  line3.geometry.vertices[2].x = data.joints[17].cameraX;
-  line3.geometry.vertices[2].y = data.joints[17].cameraY;
-  line3.geometry.vertices[2].z = data.joints[17].cameraZ;
+  line3.geometry.vertices[2].x = data[i].joints[17].cameraX*bodyScale;
+  line3.geometry.vertices[2].y = data[i].joints[17].cameraY*bodyScale;
+  line3.geometry.vertices[2].z = data[i].joints[17].cameraZ*bodyScale;
 
-  line3.geometry.vertices[3].x = data.joints[18].cameraX;
-  line3.geometry.vertices[3].y = data.joints[18].cameraY;
-  line3.geometry.vertices[3].z = data.joints[18].cameraZ;
+  line3.geometry.vertices[3].x = data[i].joints[18].cameraX*bodyScale;
+  line3.geometry.vertices[3].y = data[i].joints[18].cameraY*bodyScale;
+  line3.geometry.vertices[3].z = data[i].joints[18].cameraZ*bodyScale;
 
-  line3.geometry.vertices[4].x = data.joints[19].cameraX;
-  line3.geometry.vertices[4].y = data.joints[19].cameraY;
-  line3.geometry.vertices[4].z = data.joints[19].cameraZ;
+  line3.geometry.vertices[4].x = data[i].joints[19].cameraX*bodyScale;
+  line3.geometry.vertices[4].y = data[i].joints[19].cameraY*bodyScale;
+  line3.geometry.vertices[4].z = data[i].joints[19].cameraZ*bodyScale;
 
   // update all skeleton lines 
 
@@ -179,10 +208,21 @@ function drawJoints(data) {
   line1.geometry.verticesNeedUpdate = true;
   line2.geometry.verticesNeedUpdate = true;
   line3.geometry.verticesNeedUpdate = true;
+  
+		}
+	}
+  
+}
+
 
   // update position of light on right hand
 
   //bulbLight.position.x = data.joints[kinectron.HANDRIGHT].cameraX;
   //bulbLight.position.y = data.joints[kinectron.HANDRIGHT].cameraY;
   //bulbLight.position.z = data.joints[kinectron.HANDRIGHT].cameraZ;
-}
+
+
+
+// Frames are delivered individually to their respective callbacks
+
+ 
