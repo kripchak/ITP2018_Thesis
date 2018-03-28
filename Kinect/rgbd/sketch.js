@@ -35,13 +35,13 @@ function init() {
 	renderer = new THREE.WebGLRenderer({ alpha: true });
 	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize( window.innerWidth, window.innerHeight );
-  renderer.setClearColor( 0x000000, 1);
+  	renderer.setClearColor( 0x000000, 1);
 	container.appendChild( renderer.domElement );
 
 	controls = new THREE.TrackballControls( camera, renderer.domElement );
 
 	createKinectImg();
-	  initSkeleton();
+	initSkeleton();
 
 
 	// Set initial texture values from gui
@@ -66,6 +66,8 @@ function createKinectImg() {
 	// texture for kinect image 
 	texture = new THREE.Texture(img1);
 	texture.minFilter = THREE.NearestFilter;
+	depthTexture = new THREE.Texture(depth1);
+	depthTexture.minFilter = THREE.NearestFilter;
 
 	// geo for kinect point cloud
 	geometry = new THREE.BufferGeometry();
@@ -88,7 +90,8 @@ function createKinectImg() {
 
 		uniforms: {
 
-			"map1":         { value: texture },
+			"colorImg":     { value: texture },
+			"depthImg": 	{ value: depthTexture },
 			"width":        { value: width },
 			"height":       { value: height },
 			"nearClipping": { value: nearClipping },
@@ -97,8 +100,8 @@ function createKinectImg() {
 			"flrClipping1": { value: flrClipping1 },
 			"pointSize":    { value: 2 },
 			"zOffset":      { value: 1000 },
-      "xLeftClip1":   { value: xLeftClip1 }, 
-      "xRightClip1":  { value: xRightClip1 }
+      		"xLeftClip1":   { value: xLeftClip1 }, 
+      		"xRightClip1":  { value: xRightClip1 }
 		},
 
 		vertexShader: document.getElementById( 'vs' ).textContent,

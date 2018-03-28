@@ -23,7 +23,7 @@
 				top: 5px; width: 100%;
 			}
 
-			a {
+			 {
 
 				color: #0040ff;
 
@@ -49,7 +49,7 @@
 
 		<script id="vs" type="x-shader/x-vertex">
 
-			uniform sampler2D map1;
+			uniform sampler2D detphImg;
 
 			uniform float width;
 			uniform float height;
@@ -63,7 +63,7 @@
 
 			varying vec2 vUv;
 			varying float depth;
-			varying vec4 color1;
+			// varying vec4 color1;
 
 			const float XtoZ = 1.11146; // tan( 1.0144686 / 2.0 ) * 2.0;
 			const float YtoZ = 0.83359; // tan( 0.7898090 / 2.0 ) * 2.0;
@@ -74,40 +74,39 @@
 				vUv = vec2( position.x / width, position.y / height );
 
 				// load the color data from image
-				color1 = texture2D( map1, vUv );
+				vec4 depthTexel = texture2D( detphImg, vUv );
 
 				// clip from the left and right side of images 
-				if ( vUv.x < xLeftClip1 ) {
-					color1.r = 0.0;
-					color1.g = 0.0;
-					color1.b = 0.0;
-					color1.w = 0.0;
-				} 
+				// if ( vUv.x < xLeftClip1 ) {
+				// 	color1.r = 0.0;
+				// 	color1.g = 0.0;
+				// 	color1.b = 0.0;
+				// 	color1.w = 0.0;
+				// } 
 
-				if ( vUv.x > xRightClip1 ) {
-					color1.r = 0.0;
-					color1.g = 0.0;
-					color1.b = 0.0;
-					color1.w = 0.0;
-				} 
+				// if ( vUv.x > xRightClip1 ) {
+				// 	color1.r = 0.0;
+				// 	color1.g = 0.0;
+				// 	color1.b = 0.0;
+				// 	color1.w = 0.0;
+				// } 
 
-				if ( vUv.y < flrClipping1 ) {
-					color1.r = 0.0;
-					color1.g = 0.0;
-					color1.b = 0.0;
-					color1.w = 0.0;
-				}
+				// if ( vUv.y < flrClipping1 ) {
+				// 	color1.r = 0.0;
+				// 	color1.g = 0.0;
+				// 	color1.b = 0.0;
+				// 	color1.w = 0.0;
+				// }
 
-				depth = color1.w;
+				depth = depthTexel.r;
 
 				// Projection code by @kcmic
 				float z = ( 1.0 - depth ) * (farClipping - nearClipping) + nearClipping;
 
-				vec4 pos = vec4(
-					( position.x / width - 0.5 ) * z * XtoZ,
-					( position.y / height - 0.5 ) * z * YtoZ,
-					- z + zOffset,
-					1.0);
+				vec4 pos = vec4(( position.x / width - 0.5 ) * z * XtoZ,
+								( position.y / height - 0.5 ) * z * YtoZ,
+								- z + zOffset,
+								1.0);
 
 				gl_PointSize = pointSize;
 				gl_Position = projectionMatrix * modelViewMatrix * pos;
@@ -118,23 +117,15 @@
 
 		<script id="fs" type="x-shader/x-fragment">
 
-			uniform sampler2D map1;
+			uniform sampler2D colorImg;
 			uniform float xLeftClip1;
 			uniform float xRightClip1;
 
 			varying vec2 vUv;
-			varying vec4 color1;
 
 			void main() {
-
-				float alpha = 1.0;
-				float clrDiv = 1.0;
-
-				vec4 outputColor = vec4(color1.r, color1.g, color1.b, alpha);
-
-				if (color1.r > 0.9 && color1.g > 0.9 && color1.b > 0.9) alpha = 0.0;
-
-				gl_FragColor = vec4( outputColor.r, outputColor.g, outputColor.b, alpha);
+				vec4 colorTexture = texture2D(colorImg, vUv);
+				gl_FragColor = vec4( colorTexture.rgb, 1.0);
 
 			}
 		</script>
