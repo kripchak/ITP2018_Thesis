@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>DepthKit - Simple webVR example using Three.js</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <!-- Origin Trial Token, feature = WebVR (For Chrome M59+), origin = https://juniorxsound.github.io, expires = 2017-08-16 -->
+    <meta http-equiv="origin-trial" data-feature="WebVR (For Chrome M59+)" data-expires="2017-08-16" content="Ahwo2B0LoM2bLB015eLJ4CAvJa0xF9VVn0FO1/AaYfPklvBUwcfYFkXKenD57vhGo1WQt9Hg9IFauhKdRgLN8w8AAABreyJvcmlnaW4iOiJodHRwczovL2p1bmlvcnhzb3VuZC5naXRodWIuaW86NDQzIiwiZmVhdHVyZSI6IldlYlZSMS4xIiwiZXhwaXJ5IjoxNTAyOTEyNTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZX0=">
+    <style>
+        body {
+            background: #000;
+            color: #fff;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            font-family: georgia;
+            text-align: center;
+        }
+
+        a {
+            color: skyblue;
+            text-decoration: none
+        }
+
+        #info {
+            position: absolute;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!--Three.js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/89/three.min.js"></script>
+    <!-- Three WebVR manager -->
+    <script src="lib/WebVR.js"></script>
+    <!-- WebVR Polyfill -->
+    <script src="lib/webvr-polyfill.js"></script>
+    <!--DepthKit.js-->
+    <script src="../build/depthkit.js"></script>
+    <script src="https://itp.nyu.edu/kinectron/kinectron.bundle.js"></script>
+    <script src="main.js"></script>
+
+    <div id="info">
+        <a href="http://depthkit.tv" target="_blank" rel="noopener">DepthKit.js</a> - Simple webVR example using Three.js<br/>        Written by <a href="http://orfleisher.com">juniorxsound</a>
+    </div>
+
+    <script>
+        //webVR Polyfill config
+        WebVRConfig = {
+            BUFFER_SCALE: 0.5, // Default: 0.5.
+            GET_VR_DISPLAYS_TIMEOUT: 5000
+        };
+
+        
+
+    </script>
+
+</body>
+
+</html>
