@@ -14,7 +14,7 @@ var busy = false;
 function initKinectron() {
 
 	// Define and create an instance of kinectron
-  var kinectronIpAddress = "172.16.227.192"; // FILL IN YOUR KINECTRON IP ADDRESS HERE
+  var kinectronIpAddress = "172.16.221.35"; // FILL IN YOUR KINECTRON IP ADDRESS HERE
   kinectron = new Kinectron(kinectronIpAddress);
 
   // Open connection to Kinectron app
@@ -23,14 +23,14 @@ function initKinectron() {
   // Start rgbd feed and send received data to callback
 
 
-  kinectron.setColorCallback(drawKinectImg);
-  kinectron.setDepthCallback(depthCallback);
-  kinectron.setBodiesCallback(drawJoints);
-  kinectron.startMultiFrame(["color", "depth", "body"]);
+ // kinectron.setColorCallback(drawKinectImg);
+  //kinectron.setDepthCallback(depthCallback);
+  //kinectron.setBodiesCallback(drawJoints);
+  //kinectron.startMultiFrame(["color", "depth", "body"]);
 
  	
-  //kinectron.startTrackedBodies(drawJoints);
-  //kinectron.startRGBD(drawKinectImg);
+
+  kinectron.startRGBD(drawKinectImg);
   //kinectron.startTrackedBodies(drawJoints); 
 }
 
